@@ -74,8 +74,11 @@
 
     angular.module('datepicker', [])
        .component('datepickerComponent', {
+            bindings: {
+                dateModel: '=?'
+            },
             controller: ControllerFunction,
-            template: '<input ng-model="date" type="text" class="angular-datepicker-input"/>'
+            template: '<input ng-model="$ctrl.dateModel" type="text" class="angular-datepicker-input"/>'
         });
 
     function ControllerFunction($scope, $element, $locale, $interpolate, $filter, $compile, $window) {
@@ -285,8 +288,6 @@
                 resetToMaxDate();
             }
         });
-
-        vm.dateSet = (new Date()).toString();
 
         vm.nextMonth = function nextMonth() {
             if (vm.monthNumber === 12) {
