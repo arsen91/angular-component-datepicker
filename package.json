@@ -1,0 +1,16 @@
+{
+  "name": "custom-datepicker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "express index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Arseni Prokharchyk",
+  "license": "ISC",
+  "dependencies": {
+    "angular": "^1.6.1",
+    "express": "^4.14.0"
+  }
+}
