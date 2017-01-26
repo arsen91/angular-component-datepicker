@@ -3,11 +3,11 @@
     <meta charset="UTF-8">
     <title>Document</title>
     <script src="node_modules/angular/angular.min.js"></script>
-    <script src="src/js/datepicker.component.js"></script>
+    <script src="src/js/datepicker.directive.js"></script>
     <script src="./app.js"></script>
     <link rel="stylesheet" type="text/css" href="src/css/angular-datepicker.css">
 </head>
 <body ng-app="datepicker" ng-controller="SomeCtrl as sctrl">
-    <datepicker-component date-model="sctrl.someDate"></datepicker-component>
+    <input type="text" class="angular-datepicker-input" ng-model="sctrl.someDate" datepicker-component date-model="sctrl.someDate">
 </body>
 </html>

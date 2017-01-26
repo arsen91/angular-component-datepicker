@@ -42,7 +42,7 @@
                     '<a href="javascript:void(0)" ng-repeat="px in $ctrl.prevMonthDays" class="datepicker-calendar-day datepicker-disabled">',
                         '{{px}}',
                     '</a>',
-                    '<a href="javascript:void(0)" ng-repeat="item in $ctrl.days" ng-click="$ctrl.setDatepickerDay(item)" ng-class="{\'datepicker-active\': $ctrl.day === item, \'datepicker-disabled\': !$ctrl.isSelectableMinDate($ctrl.year + \'/\' + $ctrl.monthNumber + \'/\' + item ) || !$ctrl.isSelectableMaxDate($ctrl.year + \'/\' + $ctrl.monthNumber + \'/\' + item)}" class="datepicker-calendar-day">',
+                    '<a href="javascript:void(0)" ng-repeat="item in $ctrl.days" ng-click="$ctrl.setDatepickerDay(item)" ng-class="{\'datepicker-active\': $ctrl.selectedDay === item && $ctrl.selectedMonth === $ctrl.monthNumber && $ctrl.selectedYear === $ctrl.year, \'datepicker-disabled\': !$ctrl.isSelectableMinDate($ctrl.year + \'/\' + $ctrl.monthNumber + \'/\' + item ) || !$ctrl.isSelectableMaxDate($ctrl.year + \'/\' + $ctrl.monthNumber + \'/\' + item)}" class="datepicker-calendar-day">',
                         '{{item}}',
                     '</a>',
                     '<a href="javascript:void(0)" ng-repeat="nx in $ctrl.nextMonthDays" class="datepicker-calendar-day datepicker-disabled">',
@@ -73,20 +73,23 @@
         };
 
     angular.module('datepicker', [])
-       .component('datepickerComponent', {
-            bindings: {
-                dateModel: '=?'
-            },
-            controller: ControllerFunction,
-            template: '<input ng-model="$ctrl.dateModel" type="text" class="angular-datepicker-input"/>'
+       .directive('datepickerComponent', function DatepickerConstr() {
+            return {
+                restrict: 'A',
+                scope: {
+                    dateModel: '='
+                },
+                bindToController: true,
+                controllerAs: '$ctrl',
+                controller: ControllerFunction
+                // template: '<input ng-model="$ctrl.dateModel" type="text" class="angular-datepicker-input"/>'
+            };
         });
 
     function ControllerFunction($scope, $element, $locale, $interpolate, $filter, $compile, $window) {
-
-        //get child input
         var selector = 'angular-datepicker-input',
         vm = this,
-        thisInput = angular.element(selector ? $element[0].querySelector('.' + selector) : $element[0].children[0]),
+        thisInput = $element,
         theCalendar,
         prevButton = '<b class="datepicker-default-button">&lang;</b>',
         nextButton = '<b class="datepicker-default-button">&rang;</b>',
@@ -261,6 +264,8 @@
             } else {
                 classHelper.add(theCalendar, 'datepicker-open');
             }
+
+            $scope.$digest();
         },
 
         unregisterDataSetWatcher = $scope.$watch('$ctrl.dateSet', function dateSetWatcher(newValue) {
@@ -472,7 +477,7 @@
 
         thisInput.after($compile(angular.element(htmlTemplate))($scope));
         //get the calendar as element
-        theCalendar = $element[0].querySelector('.datepicker-calendar');
+        theCalendar = $window.document.querySelector('.datepicker-calendar');
         
         thisInput.on('focus click focusin', function onFocusAndClick() {
             isMouseOnInput = true;
