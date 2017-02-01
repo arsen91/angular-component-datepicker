@@ -198,7 +198,7 @@
             if (vm.isSelectableMinDate(vm.year + '/' + vm.monthNumber + '/' + vm.day) &&
                 vm.isSelectableMaxDate(vm.year + '/' + vm.monthNumber + '/' + vm.day)) {
 
-                var modelDate = new Date(vm.year + '/' + vm.monthNumber + '/' + vm.day);
+                var modelDate = $filter('date')(new Date(vm.year + '/' + vm.monthNumber + '/' + vm.day), 'yyyy-MM-dd');
 
                 thisInput.val(modelDate);
 
@@ -312,7 +312,7 @@
             }
 
             //set next month
-            vm.month = $filter('date')(new Date(vm.year, vm.monthNumber - 1), 'MMMM');
+            vm.month = $filter('date')(new Date(vm.year, vm.monthNumber - 1), 'LLLL');
             //reinit days
             setDaysInMonth(vm.monthNumber, vm.year);
             //deactivate selected day
@@ -375,7 +375,7 @@
                 }
             }
             //set next month
-            vm.month = $filter('date')(new Date(vm.year, vm.monthNumber - 1), 'MMMM');
+            vm.month = $filter('date')(new Date(vm.year, vm.monthNumber - 1), 'LLLL');
             //reinit days
             setDaysInMonth(vm.monthNumber, vm.year);
             //deactivate selected day
@@ -455,7 +455,7 @@
 
         // respect previously configured interpolation symbols.
         htmlTemplate = htmlTemplate.replace(/{{/g, $interpolate.startSymbol()).replace(/}}/g, $interpolate.endSymbol());
-        vm.month = $filter('date')(date, 'MMMM');//december-November like
+        vm.month = $filter('date')(date, 'LLLL');//december-November like
         vm.monthNumber = Number($filter('date')(date, 'MM')); // 01-12 like
         vm.day = Number($filter('date')(date, 'dd')); //01-31 like
         vm.dateWeekStartDay = vm.validateWeekDay(dateWeekStartDay);

@@ -1,8 +1,8 @@
 angular.module('datepicker')
-       .controller('SomeCtrl', function SomeCtrl($scope) {
+       .controller('SomeCtrl', function SomeCtrl($scope, $filter) {
             var vm = this;
             
-            this.someDate = (new Date()).toString();
+            this.someDate = $filter('date')(new Date(), 'yyyy-MM-dd');
 
             $scope.$watch(
                 function() {
